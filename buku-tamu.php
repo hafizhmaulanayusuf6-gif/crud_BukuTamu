@@ -78,7 +78,7 @@ include_once('templates/header.php');
                         </div>
                     </div>
 
-                    <!-- Modal Tambah -->
+                    <!-- Modal Tambah --> 
                      <?php
                     // mengambil data barang dari tabel dengan kode terbesar
                     $query = mysqli_query($koneksi, "SELECT max(id_tamu) as kodeTerbesar FROM buku_tamu");
