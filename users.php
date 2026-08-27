@@ -1,5 +1,12 @@
 <?php
+session_start();
 require_once('function.php');
+
+if ($_SESSION['role'] != 'admin') {
+    header('Location: index.php');
+    exit;
+}
+
 include_once('templates/header.php');
 ?>
 <!-- Begin Page Content -->
