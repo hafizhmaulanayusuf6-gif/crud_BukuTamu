@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once('function.php');
 include_once('templates/header.php');
 ?>

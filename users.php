@@ -2,6 +2,12 @@
 session_start();
 require_once('function.php');
 
+// 1. Cek apakah sudah login
+if (!isset($_SESSION['login'])) {
+    header('Location: login.php');
+    exit;
+}
+
 if ($_SESSION['role'] != 'admin') {
     header('Location: index.php');
     exit;
