@@ -1,0 +1,12 @@
+{
+    "name": "pplg/crud_buku-tamu",
+    "authors": [
+        {
+            "name": "Hafizh Maulana Yusuf",
+            "email": "hafizhmaulanayusuf6@gmail.com"
+        }
+    ],
+    "require": {
+        "phpoffice/phpspreadsheet": "^5.9"
+    }
+}

@@ -1,6 +1,16 @@
 <?php
 require_once('function.php');
 include_once('templates/header.php');
+
+if (isset($_POST['tampilkan'])) {
+    $p_awal = $_POST['p_awal'];
+    $p_akhir = $_POST['p_akhir'];
+    $link = "export-laporan.php?cari=true&p_awal=$p_awal&p_akhir=$p_akhir";
+    $buku_tamu = query("SELECT * FROM buku_tamu WHERE tanggal BETWEEN '$p_awal' AND '$p_akhir'");
+} else {
+    $buku_tamu = query("SELECT * FROM buku_tamu ORDER BY tanggal DESC");
+}
+
 ?>
 <!-- Begin Page Content -->
 <div class="container-fluid">
@@ -55,6 +65,18 @@ include_once('templates/header.php');
         <div class="card-header py-3">
             <span class="text">Tabel Histori Tamu</span>
         </div>
+
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <a href="<?= isset($_POST['tampilkan']) ? $link : 'export-laporan.php'; ?>" target="_blank" class="btn  btn-success btn-icon-split">
+                    <span class="icon text-white-50">
+                        <i class="fas fa-file-excel"></i>
+                    </span>
+                    <span class="text">Export Laporan</span>
+                </a>
+            </div>
+        </div>
+
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -67,15 +89,14 @@ include_once('templates/header.php');
                             <th>No. Telp/HP</th>
                             <th>Bertemu Dengan</th>
                             <th>Kepentingan</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
-                        if (isset($_POST['tampilkan'])) {
-                            $p_awal = $_POST['p_awal'];
-                            $p_akhir = $_POST['p_akhir'];
+                            // pemberian no auto increment
                             $no = 1;
-                            $buku_tamu = query("SELECT * FROM buku_tamu WHERE tanggal BETWEEN '$p_awal' AND '$p_akhir'");
+                            
                             foreach ($buku_tamu as $tamu) : ?>
                             <tr>
                                 <td><?= $no++; ?></td>
@@ -85,9 +106,12 @@ include_once('templates/header.php');
                                 <td><?= $tamu['no_hp']; ?></td>
                                 <td><?= $tamu['bertemu']; ?></td>
                                 <td><?= $tamu['kepentingan']; ?></td>
+                                <td>
+                                    <a class="btn btn-success" href="edit-tamu.php?id=<?= $tamu['id_tamu'] ?>">Ubah</a>
+                                    <a onclick="return confirm('Apakah anda yakin ingin menghapus data ini?')" class="btn btn-danger" href="hapus-tamu.php?id=<?= $tamu['id_tamu'] ?>">Hapus</a>
+                                </td>
                             </tr>
                             <?php endforeach;
-                        }
                         ?>
                     </tbody>
                 </table>
