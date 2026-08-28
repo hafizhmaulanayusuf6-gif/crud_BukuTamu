@@ -18,6 +18,17 @@ if ($_SESSION['role'] != 'operator') {
     exit;
 }
 
+if (isset($_POST['simpan'])) {
+    if (tambah_tamu($_POST) > 0) {
+        header('Location: buku-tamu.php?sukses=1');
+        exit;
+    } else {
+        // PERUBAHAN: jangan langsung menampilkan HTML di sini
+        // Simpan status gagal ke dalam variabel
+        $gagal = true;
+    }
+}
+
 include_once('templates/header.php');
 ?>
 <!-- Begin Page Content -->
@@ -25,22 +36,24 @@ include_once('templates/header.php');
 
                     <!-- Page Heading -->
                     <h1 class="h3 mb-4 text-gray-800">Buku Tamu</h1>
+                    
                     <?php
-                    // jika ada tombol simpan
-                    if (isset($_POST['simpan'])) {
-                        if (tambah_tamu($_POST) > 0) {
+                    if (isset($gagal)) {
                     ?>
-                            <div class="alert alert-success" role="alert">
-                                Data berhasil disimpan!
-                            </div>
+                        <div class="alert alert-danger" role="alert">
+                            Data gagal disimpan!
+                        </div>
                     <?php
-                        } else {
+                    }
+                
+                
+                    // BAGIAN INI TIDAK DIUBAH
+                    if (isset($_GET['sukses'])) {
                     ?>
-                            <div class="alert alert-danger" role="alert">
-                                Data gagal disimpan!
-                            </div>
+                        <div class="alert alert-success" role="alert">
+                            Data berhasil disimpan!
+                        </div>
                     <?php
-                        }
                     }
                     ?>
 
@@ -66,6 +79,7 @@ include_once('templates/header.php');
                                             <th>No. Telp/HP</th>
                                             <th>Bertemu Dengan</th>
                                             <th>Kepentingan</th>
+                                            <th>Foto</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
@@ -97,7 +111,7 @@ include_once('templates/header.php');
                     </div>
 
                     <!-- Modal Tambah --> 
-                     <?php
+                    <?php
                     // mengambil data barang dari tabel dengan kode terbesar
                     $query = mysqli_query($koneksi, "SELECT max(id_tamu) as kodeTerbesar FROM buku_tamu");
                     $data = mysqli_fetch_array($query);
@@ -126,7 +140,7 @@ include_once('templates/header.php');
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form method="post" action="">
+                                    <form method="post" action="" enctype="multipart/form-data">
                                         <input type="hidden" name="id_tamu" id="id_tamu" value="<?= $kodeTamu ?>">
                                         <div class="form-group row">
                                             <label for="nama_tamu" class="col-sm-3 col-form-label">Nama Tamu</label>
@@ -134,30 +148,43 @@ include_once('templates/header.php');
                                                 <input type="text" class="form-control" id="nama_tamu" name="nama_tamu">
                                             </div>
                                         </div>
+
                                         <div class="form-group row">
                                             <label for="alamat" class="col-sm-3 col-form-label">Alamat</label>
                                             <div class="col-sm-8">
                                                 <textarea class="form-control" id="alamat" name="alamat"></textarea>
                                             </div>
                                         </div>
+
                                         <div class="form-group row">
                                             <label for="no_hp" class="col-sm-3 col-form-label">No. Telepon</label>
                                             <div class="col-sm-8">
                                                 <input type="text" class="form-control" id="no_hp" name="no_hp">
                                             </div>
                                         </div>
+
                                         <div class="form-group row">
                                             <label for="bertemu" class="col-sm-3 col-form-label">Bertemu dg. </label>
                                             <div class="col-sm-8">
                                                 <input type="text" class="form-control" id="bertemu" name="bertemu">
                                             </div>
                                         </div>
+
                                         <div class="form-group row">
                                             <label for="kepentingan" class="col-sm-3 col-form-label">Kepentingan</label>
                                             <div class="col-sm-8">
                                                 <input type="text" class="form-control" id="kepentingan" name="kepentingan">
                                             </div>
+                                        </div>                                        
+
+                                        <div class="form-group row">
+                                            <label for="gambar" class="col-sm-3 col-form-label">Unggah Foto</label>
+                                            <div class="custom-file col-sm-8">
+                                                <input type="file" class="custom-file-input" id="gambar" name="gambar">
+                                                <label class="custom-file-label" for="gambar">Choose file</label>
+                                            </div>
                                         </div>
+
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Keluar</button>
                                             <button type="submit" name="simpan" class="btn btn-primary">Simpan</button>
