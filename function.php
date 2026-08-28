@@ -52,12 +52,19 @@ function ubah_tamu($data)
     $bertemu        = htmlspecialchars($data["bertemu"]);
     $kepentingan    = htmlspecialchars($data["kepentingan"]);
 
+    if ($_FILES['gambar']['error'] === 4) {
+        $gambar = $data['gambar_lama'];
+    } else {
+    $gambar = uploadGambar();
+    }
+
     $query = "UPDATE buku_tamu SET
             nama_tamu       = '$nama_tamu',
             alamat          = '$alamat',
             no_hp           = '$no_hp',
             bertemu         = '$bertemu',
-            kepentingan     = '$kepentingan'
+            kepentingan     = '$kepentingan',
+            gambar          = '$gambar'
             WHERE id_tamu = '$id'";
 
     mysqli_query($koneksi, $query);

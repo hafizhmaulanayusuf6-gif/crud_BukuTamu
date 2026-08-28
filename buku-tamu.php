@@ -45,8 +45,8 @@ include_once('templates/header.php');
                         </div>
                     <?php
                     }
-                
-                
+
+
                     // BAGIAN INI TIDAK DIUBAH
                     if (isset($_GET['sukses'])) {
                     ?>
@@ -79,7 +79,6 @@ include_once('templates/header.php');
                                             <th>No. Telp/HP</th>
                                             <th>Bertemu Dengan</th>
                                             <th>Kepentingan</th>
-                                            <th>Foto</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
