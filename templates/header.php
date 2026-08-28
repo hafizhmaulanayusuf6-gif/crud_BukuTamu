@@ -1,6 +1,8 @@
 <?php
-// memulai session
-session_start();
+//memulai session jika belum / (untuk mengembalikan status session)
+if (session_status() ===  PHP_SESSION_NONE) {
+    session_start();
+}
 
 // cek bila tidak ada user yang login maka akan di redirect ke halaman login
 if (!isset($_SESSION['login'])) {
@@ -72,11 +74,13 @@ if (!isset($_SESSION['login'])) {
             </li>
 
             <!-- Nav Item - Buku Tamu -->
+            <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 'operator') : ?>
             <li class="nav-item">
                 <a class="nav-link" href="buku-tamu.php">
                     <i class="fas fa-fw fa-book-open"></i>
                     <span>Buku Tamu</span></a>
             </li>
+            <?php endif; ?>
 
             <!-- Nav Item - Laporan -->
             <li class="nav-item">
@@ -85,12 +89,14 @@ if (!isset($_SESSION['login'])) {
                     <span>Laporan</span></a>
             </li>
 
-            <!-- Nav Item - User -->
+            <!-- Nav Item - User (hanya untuk admin aja) -->
+            <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin') : ?>
             <li class="nav-item">
                 <a class="nav-link" href="users.php">
                     <i class="fas fa-fw fa-users"></i>
                     <span>User</span></a>
             </li>
+            <?php endif; ?>
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">

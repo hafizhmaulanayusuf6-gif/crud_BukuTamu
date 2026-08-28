@@ -1,5 +1,8 @@
 <?php
-session_start();
+//memulai session jika belum / (untuk mengembalikan status session)
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 // cek bila ada user yang sudah login maka akan redirect ke halaman dashboard
 if (isset($_SESSION['login'])) {

@@ -1,5 +1,23 @@
 <?php
+//memulai session jika belum / (untuk mengembalikan status session)
+if (session_status() ===  PHP_SESSION_NONE) {
+    session_start();
+}
+
 require_once('function.php');
+
+// cek apakah sudah login
+if (!isset($_SESSION['login'])) {
+    header('Location: login.php');
+    exit;
+}
+
+// cek apakah role-nya operator
+if ($_SESSION['role'] != 'operator') {
+    header('Location: index.php');
+    exit;
+}
+
 include_once('templates/header.php');
 ?>
 <!-- Begin Page Content -->

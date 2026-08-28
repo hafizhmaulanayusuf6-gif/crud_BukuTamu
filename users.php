@@ -1,5 +1,9 @@
 <?php
-session_start();
+//memulai session jika belum / (untuk mengembalikan status session)
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 require_once('function.php');
 
 // 1. Cek apakah sudah login
@@ -98,7 +102,7 @@ include_once('templates/header.php');
                     </div>
 
                     <!-- Modal Tambah -->
-                     <?php
+                    <?php
                     // mengambil data user dari tabel dengan kode terbesar
                     $query = mysqli_query($koneksi, "SELECT max(id_user) as kodeTerbesar FROM users");
                     $data = mysqli_fetch_array($query);
